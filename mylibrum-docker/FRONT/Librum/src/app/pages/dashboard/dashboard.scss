@@ -1,0 +1,9 @@
+.dashboard {
+  width: 49%;
+}
+
+@media screen and (max-width: 768px) {
+  .dashboard {
+    width: 100%;
+  }
+}

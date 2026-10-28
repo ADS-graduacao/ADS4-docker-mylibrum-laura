@@ -19,7 +19,9 @@ services:
       retries: 10
 
   backend:
-    image: laurasavibressansenai/mylibrum-backend:${IMAGE_TAG:-1.0.0}
+    image: mylibrum-backend:${IMAGE_TAG:-1.0.0}
+    build:
+      context: ./BACK/mylibrum
     restart: unless-stopped
     depends_on:
       postgres:
@@ -35,7 +37,9 @@ services:
       - "${BACKEND_PORT:-8080}:8080"
 
   frontend:
-    image: laurasavibressansenai/mylibrum-frontend:${IMAGE_TAG:-1.0.0}
+    image: mylibrum-frontend:${IMAGE_TAG:-1.0.0}
+    build:
+      context: ./FRONT/Librum
     restart: unless-stopped
     depends_on:
       - backend

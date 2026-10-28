@@ -1,0 +1,39 @@
+import { Routes } from '@angular/router';
+import { EncontrarMaterial } from './pages/encontrar-material/encontrar-material';
+import { Dashboard } from './pages/dashboard/dashboard';
+import { CadastrarMaterial } from './pages/cadastrar-material/cadastrar-material';
+import { TelaLoginComponent } from './pages/tela-login/tela-login';
+import { EditarExcluirMaterial } from './pages/editar-excluir-material/editar-excluir-material';
+import { EsqueciSenhaComponent } from './pages/esqueci-senha/esqueci-senha';
+import { CadastroBibliotecariaComponent } from './pages/cadastro-bibliotecaria/cadastro-bibliotecaria';
+import { TelaSuporte } from './pages/tela-suporte/tela-suporte';
+import { CadastrarUsuario } from './pages/cadastrar-usuario/cadastrar-usuario';
+import { HistorioEmprestimo } from './pages/historico-emprestimo/historico-emprestimo';
+import { EditarExcluirUsuario } from './pages/editar-excluir-usuario/editar-excluir-usuario';
+import { Relatorio } from './pages/relatorio/relatorio';
+import { Configuracoes } from './pages/configuracoes/configuracoes';
+import { ChatSuporte } from './pages/chat-suporte/chat-suporte';
+import { RenovarDevolverMaterial } from './pages/renovar-devolver-material/renovar-devolver-material';
+import { Bloqueios } from './pages/bloqueios/bloqueios';
+import { ReservarMaterial } from './pages/reservar-material/reservar-material';
+
+export const routes: Routes = [
+  { path: '', component: TelaLoginComponent },
+  { path: 'esqueci-senha', component: EsqueciSenhaComponent },
+  { path: 'dashboard', component: Dashboard },
+  { path: 'estanteVirtual', component: EncontrarMaterial },
+  { path: 'cadastrarMaterial', component: CadastrarMaterial },
+  { path: 'editarExcluirMaterial', component: EditarExcluirMaterial },
+  { path: 'cadastro-bibliotecaria', component: CadastroBibliotecariaComponent },
+  { path: 'suporte', component: TelaSuporte },
+  { path: 'cadastrar-usuario', component: CadastrarUsuario },
+  { path: 'editar-excluir-usuario', component: EditarExcluirUsuario },
+  { path: 'historicoEmprestimo', component: HistorioEmprestimo },
+  { path: 'relatorio', component: Relatorio },
+  { path: 'configuracoes', component: Configuracoes },
+  { path: 'chat-suporte', component: ChatSuporte },
+  { path: 'renovar-devolver', component: RenovarDevolverMaterial },
+  { path: 'bloqueios', component: Bloqueios },
+  { path: 'reservar', component: ReservarMaterial },
+  { path: 'reservar-material', component: ReservarMaterial },
+];

@@ -1,0 +1,291 @@
+<app-corpo-padrao>
+
+  <div class="titulo">
+    Cadastrar Material no Acervo
+  </div>
+
+  <div class="corpo">
+
+    <label class="form-label">Tipo de Material</label>
+
+    <div class="d-flex gap-3 mb-4">
+
+      <button type="button" class="btn btn-lg w-100 p-4"
+        [ngClass]="tipoMaterial == 'livro' ? 'btn-primary' : 'btn-outline-secondary'" (click)="selecionarTipo('livro')">
+        <i class="bi bi-book fs-3"></i><br>
+        <span class="fs-5">Livro</span>
+      </button>
+
+      <button type="button" class="btn btn-lg w-100 p-4"
+        [ngClass]="tipoMaterial == 'periodico' ? 'btn-primary' : 'btn-outline-secondary'"
+        (click)="selecionarTipo('periodico')">
+        <i class="bi bi-journal fs-3"></i><br>
+        <span class="fs-5">Periódico</span>
+      </button>
+
+      <button type="button" class="btn btn-lg w-100 p-4"
+        [ngClass]="tipoMaterial == 'outros' ? 'btn-primary' : 'btn-outline-secondary'"
+        (click)="selecionarTipo('outros')">
+        <i class="bi bi-disc fs-3"></i><br>
+        <span class="fs-5">Outros Materiais</span>
+      </button>
+
+    </div>
+
+    <!-- MENSAGENS DE ERRO -->
+    <app-alerta-erros *ngIf="mensagensErro.length" [mensagens]="mensagensErro"></app-alerta-erros>
+    <!-- ====================================================== -->
+    <!-- LIVRO -->
+    <!-- ====================================================== -->
+
+    <form [formGroup]="formLivro" (ngSubmit)="salvarLivro()" *ngIf="tipoMaterial == 'livro'">
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Título *</label>
+          <input type="text" class="form-control" formControlName="titulo"
+            [class.is-invalid]="isInvalido(formLivro, 'titulo')">
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Subtítulo</label>
+          <input type="text" class="form-control" formControlName="subtitulo"
+            [class.is-invalid]="isInvalido(formLivro, 'subtitulo')">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Autor *</label>
+          <app-select-pesquisavel #autorSelectLivro [itens]="autores" formControlName="autorId"
+            placeholder="Digite para buscar autor..." [invalido]="isInvalido(formLivro, 'autorId')"
+            (criar)="abrirModalAutor()">
+          </app-select-pesquisavel>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Editora *</label>
+          <app-select-pesquisavel #editoraSelectLivro [itens]="editoras" formControlName="editoraId"
+            placeholder="Digite para buscar editora..." [invalido]="isInvalido(formLivro, 'editoraId')"
+            (criar)="abrirModalEditora()">
+          </app-select-pesquisavel>
+        </div>
+      </div>
+
+      <!-- ANO / ISBN / EDIÇÃO -->
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <label class="form-label">Ano de Publicação *</label>
+          <input type="number" class="form-control" min="1000" max="2100" formControlName="anoPublicacao"
+            [class.is-invalid]="isInvalido(formLivro, 'anoPublicacao')">
+        </div>
+
+        <div class="col-md-4 mb-3">
+          <label class="form-label">ISBN *</label>
+          <input type="text" class="form-control" formControlName="isbn"
+            [class.is-invalid]="isInvalido(formLivro, 'isbn')">
+        </div>
+
+        <div class="col-md-4 mb-3">
+          <label class="form-label">Edição</label>
+          <input type="text" class="form-control" formControlName="edicao"
+            [class.is-invalid]="isInvalido(formLivro, 'edicao')">
+        </div>
+      </div>
+
+      <!-- GÊNERO / PÁGINAS -->
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Gênero</label>
+          <app-select-pesquisavel #generoSelectLivro [itens]="generos" [multiplo]="true"
+            [(ngModel)]="generoIdsSelecionados" [ngModelOptions]="{standalone: true}"
+            placeholder="Digite para buscar gênero..." (criar)="abrirModalGenero()">
+          </app-select-pesquisavel>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Quantidade de Páginas</label>
+          <input type="number" class="form-control" min="1" formControlName="quantidadePaginas"
+            [class.is-invalid]="isInvalido(formLivro, 'quantidadePaginas')">
+        </div>
+      </div>
+
+      <!-- SINOPSE -->
+      <div class="mb-3">
+        <label class="form-label">Sinopse</label>
+        <textarea class="form-control" rows="3" formControlName="sinopse"
+          [class.is-invalid]="isInvalido(formLivro, 'sinopse')"></textarea>
+      </div>
+
+      <!-- EXEMPLARES / DATA -->
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Quantidade de Exemplares</label>
+          <input type="number" class="form-control" min="1" disabled placeholder="Cadastrado em Exemplares">
+        </div>
+
+        <div class="col-md-6 mb-4">
+          <label class="form-label">Data de Aquisição</label>
+          <input type="date" class="form-control" formControlName="dataAquisicao"
+            [class.is-invalid]="isInvalido(formLivro, 'dataAquisicao')">
+        </div>
+      </div>
+
+    </form>
+
+    <!-- ====================================================== -->
+    <!-- PERIÓDICO -->
+    <!-- ====================================================== -->
+
+    <form [formGroup]="formPeriodico" (ngSubmit)="salvarPeriodico()" *ngIf="tipoMaterial == 'periodico'">
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Título *</label>
+          <input type="text" class="form-control" formControlName="titulo"
+            [class.is-invalid]="isInvalido(formPeriodico, 'titulo')">
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Editora *</label>
+          <app-select-pesquisavel #editoraSelectPeriodico [itens]="editoras" formControlName="editoraId"
+            placeholder="Digite para buscar editora..." [invalido]="isInvalido(formPeriodico, 'editoraId')"
+            (criar)="abrirModalEditora()">
+          </app-select-pesquisavel>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <label class="form-label">Edição/Número *</label>
+          <input type="number" class="form-control" formControlName="edicao"
+            [class.is-invalid]="isInvalido(formPeriodico, 'edicao')">
+        </div>
+
+        <div class="col-md-4 mb-3">
+          <label class="form-label">Ano de Publicação *</label>
+          <input type="number" class="form-control" min="1000" max="2100" formControlName="anoPublicacao"
+            [class.is-invalid]="isInvalido(formPeriodico, 'anoPublicacao')">
+        </div>
+
+        <div class="col-md-4 mb-3">
+          <label class="form-label">ISSN *</label>
+          <input type="text" class="form-control" formControlName="issn"
+            [class.is-invalid]="isInvalido(formPeriodico, 'issn')">
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Tema</label>
+        <input type="text" class="form-control" formControlName="tema"
+          [class.is-invalid]="isInvalido(formPeriodico, 'tema')">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Descrição</label>
+        <textarea class="form-control" rows="3" formControlName="descricao"
+          [class.is-invalid]="isInvalido(formPeriodico, 'descricao')"></textarea>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Quantidade de Exemplares</label>
+          <input type="number" class="form-control" disabled placeholder="Cadastrado em Exemplares">
+        </div>
+
+        <div class="col-md-6 mb-4">
+          <label class="form-label">Localização/Unidade</label>
+          <input type="text" class="form-control" disabled placeholder="Cadastrado em Exemplares">
+        </div>
+      </div>
+
+    </form>
+
+    <!-- ====================================================== -->
+    <!-- OUTROS MATERIAIS -->
+    <!-- ====================================================== -->
+
+    <form [formGroup]="formOutros" (ngSubmit)="salvarOutro()" *ngIf="tipoMaterial == 'outros'">
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Nome *</label>
+          <input type="text" class="form-control" formControlName="titulo"
+            [class.is-invalid]="isInvalido(formOutros, 'titulo')">
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Tipo *</label>
+          <input type="text" class="form-control" placeholder="Ex: DVD, Mapa, Jogo..." formControlName="tema"
+            [class.is-invalid]="isInvalido(formOutros, 'tema')">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Editora</label>
+          <app-select-pesquisavel #editoraSelectOutros [itens]="editoras" formControlName="editoraId"
+            placeholder="Digite para buscar editora..." [invalido]="isInvalido(formOutros, 'editoraId')"
+            (criar)="abrirModalEditora()">
+          </app-select-pesquisavel>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Autor</label>
+          <app-select-pesquisavel #autorSelectOutros [itens]="autores" formControlName="autorId"
+            placeholder="Digite para buscar autor..." (criar)="abrirModalAutor()">
+          </app-select-pesquisavel>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Descrição</label>
+        <textarea class="form-control" rows="3" formControlName="descricao"
+          [class.is-invalid]="isInvalido(formOutros, 'descricao')"></textarea>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Observação</label>
+        <textarea class="form-control" rows="2" formControlName="observacao"
+          [class.is-invalid]="isInvalido(formOutros, 'observacao')"></textarea>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Quantidade de Exemplares</label>
+          <input type="number" class="form-control" disabled placeholder="Cadastrado em Exemplares">
+        </div>
+
+        <div class="col-md-6 mb-4">
+          <label class="form-label">Localização/Unidade</label>
+          <input type="text" class="form-control" disabled placeholder="Cadastrado em Exemplares">
+        </div>
+      </div>
+
+    </form>
+
+    <!-- BOTÕES -->
+    <hr>
+
+    <div class="d-flex justify-content-end gap-2">
+      <button type="button" lbrButton variant="cancela/limpa" (click)="limpar()">Limpar</button>
+      <button type="button" lbrButton variant="cadastrar" (click)="salvar()">Salvar</button>
+    </div>
+
+  </div>
+
+</app-corpo-padrao>
+
+<!-- MODAL AUTOR -->
+<app-cadastro-autor-modal *ngIf="mostrarModalAutor" (fechar)="fecharModalAutor()" (autorCriado)="autorCriado($event)">
+</app-cadastro-autor-modal>
+
+<!-- MODAL EDITORA -->
+<app-cadastro-editora-modal *ngIf="mostrarModalEditora" (fechar)="fecharModalEditora()"
+  (editoraCriada)="editoraCriada($event)">
+</app-cadastro-editora-modal>
+
+<!-- MODAL GÊNERO -->
+<app-cadastro-genero-modal *ngIf="mostrarModalGenero" (fechar)="fecharModalGenero()"
+  (generoCriado)="generoCriado($event)">
+</app-cadastro-genero-modal>

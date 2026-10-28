@@ -1,0 +1,36 @@
+@import '../tela-login/tela-login.scss';
+
+.login-container {
+  height: auto !important;
+  min-height: 100vh;     
+  padding: 40px 20px;     
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.card {
+  width: 100%;
+  max-width: 420px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.form-select:focus,
+.form-control:focus {
+  box-shadow: none;
+  border-color: #86b7fe;
+}
+
+
+.login-header {
+  margin-top: 20px;
+}
+
+
+.footer {
+  position: relative !important; 
+  margin-top: 30px;
+  bottom: 0 !important;
+}

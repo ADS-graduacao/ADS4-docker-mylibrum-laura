@@ -1,0 +1,58 @@
+<div class="login-container" data-bs-theme="light">
+
+  <!-- TOPO -->
+  <div class="login-header">
+    <div class="logo-box">
+      <img src="assets/images/My_Librum_logo-Photoroom.png" alt="Logo My Librum" class="login-logo">
+    </div>
+
+    <h2>My Librum</h2>
+    <p>Sistema de Gerenciamento de Bibliotecas</p>
+  </div>
+
+  <!-- CARD -->
+  <div class="card p-4 shadow">
+
+    <h5 class="text-center mb-3 text-secondary">Acessar Sistema</h5>
+
+    <div class="mb-3">
+      <label for="login-email" class="form-label text-secondary">Email</label>
+      <input id="login-email" type="email" class="form-control" placeholder="seu@email.com" autocomplete="username" [(ngModel)]="email">
+    </div>
+
+   
+    <div class="mb-3">
+      <label for="login-senha" class="form-label text-secondary">Senha</label>
+
+      <div class="input-group">
+        <input id="login-senha" [type]="mostrarSenha ? 'text' : 'password'" autocomplete="current-password"
+               class="form-control"
+               [(ngModel)]="senha">
+
+        <button class="btn btn-eye" type="button" (click)="toggleSenha()">
+          <i class="bi" [ngClass]="mostrarSenha ? 'bi-eye-slash' : 'bi-eye'"></i>
+        </button>
+      </div>
+    </div>
+
+    <button class="btn btn-login w-100" (click)="entrar()" [disabled]="entrando">
+      {{ entrando ? 'Entrando...' : 'Entrar no Sistema' }}
+    </button>
+
+    <!-- Links -->
+    <div class="text-center mt-3 text-secondary">
+      <a (click)="esqueciSenha()">Esqueci minha senha</a>
+      <p class="small mt-2">Não tem acesso? Fale com o administrador</p>
+         <a (click)="irParaCadastro()" class="d-block mt-2 small">Cadastrar novo funcionário</a>
+
+
+    </div>
+ 
+  </div>
+
+ 
+  <div class="footer">
+    © 2026 LIBRUM - Todos os direitos reservados
+  </div>
+
+</div>

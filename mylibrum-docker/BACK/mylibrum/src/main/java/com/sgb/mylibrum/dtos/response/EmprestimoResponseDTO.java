@@ -1,0 +1,21 @@
+package com.sgb.mylibrum.dtos.response;
+
+import com.sgb.mylibrum.entities.enums.StatusEmprestimo;
+import lombok.Data;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
+
+@Data
+public class EmprestimoResponseDTO {
+    private Long id;
+    private Long usuarioId;
+    private Long exemplarId;
+    private Long usuarioResponsavelId;
+    private StatusEmprestimo status;
+    private OffsetDateTime dataSaida;
+    private LocalDate dataDevolucaoPrevista;
+    private OffsetDateTime dataDevolucaoEfetivada;
+    private Integer renovacoesContagem;
+    private OffsetDateTime dataCriacao;
+    private OffsetDateTime dataUltimaAtualizacao;
+}
